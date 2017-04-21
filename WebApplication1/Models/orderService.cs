@@ -60,6 +60,10 @@ namespace WebApplication1.Models
             }
             return result;
         }
+        /// <summary>
+        /// 取出員工ID，姓名
+        /// </summary>
+        /// <returns></returns>
         private List<Models.Orders> GetEmployeeData() {
             DataTable dt = new DataTable();
             String sql = @"Select distinct  B.[EmployeeID],concat([FirstName],[LastName]) as Name 

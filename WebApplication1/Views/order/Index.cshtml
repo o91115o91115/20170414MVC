@@ -1,0 +1,51 @@
+﻿@model WebApplication1.Models.Orders
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        @using (Html.BeginForm("Index", "order", FormMethod.Post, new { id = "Form1" }))
+        {
+            <table>                
+                <tr><td>訂單編號</td><td colspan="3">@Html.TextBoxFor(model => model.OrderID)</td></tr>
+                <tr><td>客戶名稱</td><td colspan="3">@Html.TextBoxFor(model => model.Customers)</td></tr>
+                <tr><td>負責員工</td><td colspan="3">@Html.TextBoxFor(model => model.Employees)</td></tr>
+                <tr><td>出貨公司</td><td colspan="3">@Html.TextBoxFor(model => model.ShipName)</td></tr>
+                <tr><td>訂購日期</td><td>@Html.TextBoxFor(model => model.OrderDate,new {@type="date"})</td><td>出貨日期</td><td>@Html.TextBoxFor(model => model.ShippedDate, new { @type = "date" })</td></tr>
+                <tr><td>需要日期</td><td colspan="3">@Html.TextBoxFor(model => model.RequiredDate, new { @type = "date" })</td></tr>
+                <tr><td></td><td colspan="3"><input type="submit" value="查詢" /><input type="reset" /></td></tr>
+            </table>
+            
+        }
+    </div>
+    <h5>查詢結果</h5>
+    @if (ViewBag.data != null)
+    {
+    <div>
+        <table>
+            <tr>
+                <td>訂單編號</td>
+                <td>客戶編號</td>
+                <td>員工編號</td>
+            </tr>
+            @foreach (var item in (List<WebApplication1.Models.Orders>)ViewBag.data)
+            {
+                <tr>
+                    <td>@item.OrderID</td>
+                    <td>@item.CustomerID</td>
+                    <td>@item.EmployeeID</td>
+                </tr>
+            }
+        </table>
+    </div>
+    }
+</body>
+</html>

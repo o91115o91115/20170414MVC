@@ -64,9 +64,10 @@ namespace WebApplication1.Models
         /// 取出員工ID，姓名
         /// </summary>
         /// <returns></returns>
-        private List<Models.Orders> GetEmployeeData() {
+        public List<Models.Employees> GetEmployeeData()
+        {
             DataTable dt = new DataTable();
-            String sql = @"Select distinct  B.[EmployeeID],concat([FirstName],[LastName]) as Name 
+            String sql = @"Select distinct  B.[EmployeeID],[FirstName],[LastName]
                            From [Sales].[Orders] A right join [HR].[Employees] B on A.EmployeeID=B.EmployeeID";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
@@ -76,7 +77,27 @@ namespace WebApplication1.Models
                 sqlAdapter.Fill(dt);
                 conn.Close();
             }
-            return this.MapOrderDataToList(dt);
+            return this.EmployeeDataToList(dt);
+        }
+        /// <summary>
+        /// 將取出的Emplyee資料轉型
+        /// </summary>
+        /// <param name="orderdata"></param>
+        /// <returns></returns>
+        private List<Models.Employees> EmployeeDataToList(DataTable orderdata)
+        {
+
+            List<Models.Employees> result = new List<Models.Employees>();
+            foreach (DataRow row in orderdata.Rows)
+            {
+                result.Add(new Models.Employees()
+                {
+                    EmployeeID=Convert.ToInt32(row["EmployeeID"]),
+                    FirstName=Convert.ToString(row["FirstName"]),
+                    LastName = Convert.ToString(row["LastName"]),
+                });
+            }
+            return result;
         }
     }
 }

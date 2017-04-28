@@ -1,0 +1,108 @@
+﻿@model WebApplication1.Models.OrderInstall
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Install</title>
+    <link rel="stylesheet" href="~/Content/bootstrap.css" />
+</head>
+<body>
+    <div  class="form-group"> 
+        @using (Html.BeginForm("Install", "order", FormMethod.Post, new { id = "form" })) {
+            <table class="table">
+                <tr>
+                    <td>客戶名稱</td>
+                    <td colspan="3">@Html.DropDownListFor(model =>Model.CustomerID,(List<SelectListItem>)ViewBag.cdata)</td>
+                </tr>
+                <tr>
+                    <td>負責員工名稱</td>
+                    <td colspan="3">@Html.DropDownListFor(model => Model.CustomerID, (List<SelectListItem>)ViewBag.edata)</td>
+                </tr>
+                <tr>
+                    <td>訂單日期</td>
+                    <td>@Html.TextBoxFor(model => model.RequiredDate, new { @type = "date"})</td>
+                    <td>需要日期</td>
+                    <td>@Html.TextBoxFor(model => model.RequiredDate, new { @type = "date" })</td>
+                </tr>
+                <tr>
+                    <td>出貨日期</td>
+                    <td colspan="3">@Html.TextBoxFor(model => model.RequiredDate, new { @type = "date" })</td>
+                </tr>
+                <tr>
+                    <td>出貨公司名稱</td>
+                    <td colspan="3">@Html.DropDownListFor(model => Model.CustomerID, (List<SelectListItem>)ViewBag.sdata)</td>
+                </tr>
+                <tr>
+                    <td>運費</td>
+                    <td colspan="3">@Html.TextBoxFor(model => model.Freight, new { @placeholder = "尚未輸入"})</td>
+                </tr>
+                <tr>
+                    <td>出貨國家</td>
+                    <td>@Html.TextBoxFor(model => model.ShipCountry, new { @placeholder = "尚未輸入" })</td>
+                    <td>出貨城市</td>
+                    <td>@Html.TextBoxFor(model => model.ShipCity, new { @placeholder = "尚未輸入" })</td>
+                </tr>
+                <tr>
+                    <td>出貨地區</td>
+                    <td>@Html.TextBoxFor(model => model.ShipRegion, new { @placeholder = "尚未輸入" })</td>
+                    <td>郵遞區號</td>
+                    <td>@Html.TextBoxFor(model => model.ShipPostalCode, new { @placeholder = "尚未輸入" })</td>
+                </tr>
+                <tr>
+                    <td>出貨地址</td>
+                    <td>@Html.TextBoxFor(model => model.ShipAddress, new { @placeholder = "尚未輸入" })</td>
+                    <td>出貨說明</td>
+                    <td><input type="text" /></td>
+                </tr>
+                <tr>
+                    <td>訂單金額總計</td>
+                    <td colspan="3"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="3"><input type="submit" class="btn btn-info" value="存檔" />@Html.ActionLink("回上一頁", "Index", "order", new { @class = "btn btn-info" })</td>
+                </tr>
+            </table>
+        }
+    </div>
+    <h3>訂單明細</h3>
+    <button id="AddDetail" class="btn btn-info">新增明細</button>
+    <table id="table">
+        <tr>
+            <td>商品</td>
+            <td>單價</td>
+            <td>數量</td>
+            <td>小計</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DropDownListFor(model=>model.ProductID,(List<SelectListItem>)ViewBag.pdata,new { @onchange="price" })
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.UnitPrice)
+            </td>
+            <td>
+                @Html.TextBoxFor(model=>model.Qty)
+            </td>
+            <td>
+                <input type="text" readonly />
+            </td>
+        </tr>
+    </table>
+    <script>
+        document.getElementById("AddDetail").addEventListener("click", function () {
+            var num = document.getElementById("table").rows.length;
+            var tr = document.getElementById("table").insertRow(num);
+            var td = tr.insertCell(tr.cells.length);
+            td.innerHTML=
+        });
+    </script>
+</body>
+</html>

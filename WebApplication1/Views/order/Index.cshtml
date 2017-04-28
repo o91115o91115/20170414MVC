@@ -1,4 +1,4 @@
-﻿@model WebApplication1.Models.Orders
+﻿@model WebApplication1.Models.OrderSearch
 @{
     Layout = null;
 }
@@ -9,43 +9,65 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
+    <link rel="stylesheet" href="~/Content/bootstrap.css" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 </head>
 <body>
-    <div>
-        @using (Html.BeginForm("Index", "order", FormMethod.Post, new { id = "Form1" }))
+    <div  class="form-group">
+        @using (Html.BeginForm("Index", "order", FormMethod.Post, new { id = "form" }))
         {
-            <table>                
-                <tr><td>訂單編號</td><td colspan="3">@Html.TextBoxFor(model => model.OrderID)</td></tr>
-                <tr><td>客戶名稱</td><td colspan="3">@Html.TextBoxFor(model => model.Customers)</td></tr>
-                <tr><td>負責員工</td><td colspan="3">@Html.DropDownListFor(model => Model.EmployeeID,(List<SelectListItem>)ViewBag.edata)</td></tr>
-                <tr><td>出貨公司</td><td colspan="3">@Html.TextBoxFor(model => model.ShipName)</td></tr>
-                <tr><td>訂購日期</td><td>@Html.TextBoxFor(model => model.OrderDate,new {@type="date"})</td><td>出貨日期</td><td>@Html.TextBoxFor(model => model.ShippedDate, new { @type = "date" })</td></tr>
-                <tr><td>需要日期</td><td colspan="3">@Html.TextBoxFor(model => model.RequiredDate, new { @type = "date" })</td></tr>
-                <tr><td></td><td colspan="3"><input type="submit" value="查詢" /><input type="reset" /></td></tr>
+            <table class="table">                
+                <tr><td>訂單編號</td><td colspan="3">@Html.TextBoxFor(model => model.OrderID, new { @placeholder = "尚未輸入",@id="orderid" })</td></tr>
+                <tr><td>客戶名稱</td><td colspan="3">@Html.TextBoxFor(model => model.CompanyName, new { @placeholder = "尚未輸入", @id = "companyname" })</td></tr>
+                <tr><td>負責員工</td><td colspan="3">@Html.DropDownListFor(model => Model.EmployeeID, (List<SelectListItem>)ViewBag.edata)</td></tr>
+                <tr><td>出貨公司</td><td colspan="3">@Html.DropDownListFor(model => Model.ShipperID, (List<SelectListItem>)ViewBag.sdata)</td></tr>
+                <tr><td>訂購日期</td><td>@Html.TextBoxFor(model => model.OrderDate,new {@type="date", @id = "orderdate" })</td><td>出貨日期</td><td>@Html.TextBoxFor(model => model.ShippedDate, new { @type = "date", @id = "shippeddate" })</td></tr>
+                <tr><td>需要日期</td><td colspan="3">@Html.TextBoxFor(model => model.RequiredDate, new { @type = "date", @id = "requireddate" })</td></tr>
+                <tr><td></td><td colspan="3"><input type="submit" class="btn btn-info" value="查詢" /><input type="button" class="btn btn-info" value="清除" id="reset" />@Html.ActionLink("新增訂單", "Install","order",new { @class= "btn btn-info" })</td></tr>
             </table>
             
         }
     </div>
-    <h5>查詢結果</h5>
+    
     @if (ViewBag.data != null)
     {
-    <div>
-        <table>
-            <tr>
-                <td>訂單編號</td>
-                <td>客戶編號</td>
-                <td>員工編號</td>
-            </tr>
-            @foreach (var item in (List<WebApplication1.Models.Orders>)ViewBag.data)
-            {
-                <tr>
-                    <td>@item.OrderID</td>
-                    <td>@item.CustomerID</td>
-                    <td>@item.EmployeeID</td>
-                </tr>
-            }
-        </table>
-    </div>
+        <div id="data">
+            <h3>查詢結果</h3>
+            <div>
+                <table class="table">
+                    <tr>
+                        <td>訂單編號</td>
+                        <td>客戶名稱</td>
+                        <td>訂購日期</td>
+                        <td>發貨日期</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    @foreach (var item in (List<WebApplication1.Models.OrderSearch>)ViewBag.data)
+                    {
+                        <tr id=@item.OrderID>
+                            <td>@item.OrderID</td>
+                            <td>@item.CompanyName</td>
+                            <td>@item.OrderDate</td>
+                            <td>@item.ShippedDate</td>
+                            <td>@Html.ActionLink("修改", "Updata", "order",new {updataid=item.OrderID }, new { @class = "btn btn-info"})</td>
+                            <td><button class="btn btn-info" onclick="deleteorder">刪除</button></td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
     }
+    <script>
+        document.getElementById("reset").addEventListener("click", function () {
+            document.getElementById("orderid").value = '';
+            document.getElementById("companyname").value = '';
+            document.getElementById("orderdate").value = '';
+            document.getElementById("shippeddate").value = '';
+            document.getElementById("requireddate").value = '';
+            var a = document.getElementById("data");
+            document.body.removeChild(a);
+        });
+    </script>
 </body>
 </html>

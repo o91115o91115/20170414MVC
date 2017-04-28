@@ -160,7 +160,9 @@
     <Compile Include="Models\Employees.cs" />
     <Compile Include="Models\Nums.cs" />
     <Compile Include="Models\OrderDetails.cs" />
+    <Compile Include="Models\OrderInstall.cs" />
     <Compile Include="Models\Orders.cs" />
+    <Compile Include="Models\OrderSearch.cs" />
     <Compile Include="Models\orderService.cs" />
     <Compile Include="Models\Products.cs" />
     <Compile Include="Models\Scores.cs" />
@@ -207,6 +209,8 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\order\Index.cshtml" />
+    <Content Include="Views\order\Install.cshtml" />
+    <Content Include="Views\order\Updata.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
